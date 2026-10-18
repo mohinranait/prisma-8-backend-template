@@ -1,0 +1,36 @@
+// use prisma-8
+
+
+model Tag {
+  id String @id @default(uuid())
+  content String
+  products ProductTag[]
+}
+
+
+model Veriant {
+  id String @id @default(uuid())
+  price Decimal 
+  sku String @unique 
+  stock Int
+  productId String
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Product {
+  id String @id @default(uuid())
+  title String
+  slug String 
+  veriants Veriant[]
+  tags ProductTag[]
+}
+
+model ProductTag {
+  productId String
+  product Product @relation(fields: [productId], references: [id])
+
+  tagId String 
+  tag Tag @relation(fields: [tagId], references: [id])
+
+  @@id([productId,tagId])
+}
