@@ -55,8 +55,8 @@ export const getAllUsers = async (_req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   try {
-    const id = Number(req.params.id);
-    if (Number.isNaN(id)) {
+    const id = req.params.id as string;
+    if (!id) {
       return res.status(400).json({
         success: false,
         message: "Invalid user ID provided.",
@@ -87,8 +87,8 @@ export const getUserById = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    const id = Number(req.params.id);
-    if (Number.isNaN(id)) {
+    const id = req.params.id as string;
+     if (!id) {
       return res.status(400).json({
         success: false,
         message: "Invalid user ID provided.",
@@ -127,8 +127,8 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
   try {
-    const id = Number(req.params.id);
-    if (Number.isNaN(id)) {
+    const id = req.params.id as string;
+    if (!id) {
       return res.status(400).json({
         success: false,
         message: "Invalid user ID provided.",

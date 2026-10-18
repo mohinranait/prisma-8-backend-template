@@ -1,13 +1,22 @@
 import express from "express";
 import { db } from "./config/db.ts";
 import { UserRoutes } from "./modules/user/index.ts";
+import cors from "cors";
+import { PostRouters } from "./modules/posts/post.routes.ts";
+import { CommentRouters } from "./modules/comments/comment.routes.ts";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin : ['https://hoppscotch.io'],
+  credentials: true,
+}))
 
 // 
 app.use("/api/users", UserRoutes);
+app.use("/api/posts", PostRouters)
+app.use('/api/comments', CommentRouters)
 
 // Report whether any users exist
 app.get("/", async (req, res) => {
@@ -16,7 +25,7 @@ app.get("/", async (req, res) => {
   }));
   res.json(
     total === 0
-      ? "No users have been added yet."
+      ? "No asdf users have been added yet."
       : "Some users have been added to the database.",
   );
 });

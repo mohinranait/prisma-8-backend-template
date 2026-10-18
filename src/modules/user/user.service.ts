@@ -10,10 +10,19 @@ export const createUser = async (payload: ICreateUserInput) => {
 };
 
 export const getAllUsers = async () => {
-  return await db.orm.public.User.all();
+  return await db.orm.public.User
+  .include("posts", (post) =>
+    post.combine({
+      data: post.include("comments").include("author"),
+      total: post.count()
+    })
+  )
+    .include("comments")
+   
+    .all();
 };
 
-export const getUserById = async (id: number) => {
+export const getUserById = async (id: string) => {
   return await db.orm.public.User.where({ id }).first();
 };
 
@@ -21,11 +30,11 @@ export const getUserByEmail = async (email: string) => {
   return await db.orm.public.User.where({ email }).first();
 };
 
-export const updateUser = async (id: number, payload: IUpdateUserInput) => {
+export const updateUser = async (id: string, payload: IUpdateUserInput) => {
   return await db.orm.public.User.where({ id }).update(payload);
 };
 
-export const deleteUser = async (id: number) => {
+export const deleteUser = async (id: string) => {
   return await db.orm.public.User.where({ id }).delete();
 };
 

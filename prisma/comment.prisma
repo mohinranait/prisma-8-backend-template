@@ -1,0 +1,19 @@
+// use prisma-8
+
+model Comment {
+  id        String  @id @default(uuid())
+  rating    Int @default(5)
+  content   String?
+
+
+  postId    String
+  post      Post @relation(fields: [postId], references: [id])
+
+  authorId  String 
+  author    User @relation(fields: [authorId], references: [id]) 
+
+
+  createdAt TimestamptzString @default(now())
+  updatedAt temporal.updatedAtString()
+
+}
